@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Republic of Verdania</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c5282;
+            --secondary-color: #48bb78;
+            --background-color: #f7fafc;
+            --text-color: #2d3748;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .flag-container {
+            width: 300px;
+            height: 200px;
+            margin: 2rem auto;
+            position: relative;
+            border: 1px solid #ccc;
+        }
+
+        .flag {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #2c5282 33%, #48bb78 33% 66%, white 66%);
+        }
+
+        .star {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: gold;
+            font-size: 4rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            background-color: #e2e8f0;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            margin: 2rem 0;
+            position: relative;
+            width: 50%;
+            padding: 0 2rem;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Republic of Verdania</h1>
+        <p>Land of Innovation and Natural Beauty</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#flag">Flag</a></li>
+            <li><a href="#geography">Geography</a></li>
+            <li><a href="#history">History</a></li>
+            <li><a href="#culture">Culture</a></li>
+            <li><a href="#statistics">Statistics</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="flag" class="section">
+            <h2>National Flag</h2>
+            <div class="flag-container">
+                <div class="flag"></div>
+                <span class="star">★</span>
+            </div>
+            <div id="flag-info"></div>
+        </section>
+
+        <section id="geography" class="section">
+            <h2>Geography</h2>
+            <div class="map-container">
+                <svg viewBox="0 0 800 600" width="100%" height="100%">
+                    <!-- Island outline -->
+                    <path d="M200,300 Q400,200 600,300 Q700,400 500,500 Q300,450 200,300" 
+                          fill="#48bb78" stroke="#2c5282" stroke-width="3"/>
+                    <!-- Mountains -->
+                    <path d="M350,350 L400,250 L450,350 Z" fill="#4a5568"/>
+                    <path d="M450,400 L500,300 L550,400 Z" fill="#4a5568"/>
+                    <!-- Capital city -->
+                    <circle cx="400" cy="350" r="10" fill="red"/>
+                    <text x="420" y="360" fill="#2d3748">Nova Verde</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="history" class="section">
+            <h2>Historical Timeline</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>800 CE</h3>
+                    <p>First Polynesian settlers arrive</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>1642</h3>
+                    <p>European discovery by Dutch explorers</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>1865</h3>
+                    <p>Independence declared</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>2020</h3>
+                    <p>Achieved 80% renewable energy goal</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="statistics" class="section">
+            <h2>Demographics & Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Population</h3>
+                    <p>4.8 million</p>
+                </div>
+                <div class="stat-card">
+                    <h3>GDP per capita</h3>
+                    <p>$42,000 USD</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Life Expectancy</h3>
+                    <p>82.3 years</p>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="powerChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Flag information
+        const flagInfo = document.getElementById('flag-info');
+        const flagDetails = `
+            <h3>Flag Symbolism:</h3>
+            <ul>
+                <li>Blue: Vast ocean and rivers</li>
+                <li>Green: Lush rainforests and agriculture</li>
+                <li>White: Peace and innovation</li>
+                <li>Gold Star: Hope and future prosperity</li>
+            </ul>
+        `;
+        flagInfo.innerHTML = flagDetails;
+
+        // Power generation chart
+        const ctx = document.getElementById('powerChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Solar', 'Geothermal', 'Wind', 'Hydroelectric', 'Biomass'],
+                datasets: [{
+                    data: [40, 30, 15, 10, 5],
+                    backgroundColor: [
+                        '#ffd700',
+                        '#ff6b6b',
+                        '#4ecdc4',
+                        '#45b7d1',
+                        '#96ceb4'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Power Generation Mix (%)'
+                    }
+                }
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = document.querySelector(this.getAttribute('href'));
+                section.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
